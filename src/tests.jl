@@ -10,7 +10,7 @@ function Flow_finite_V(;N,d,Λ,Rmax,mass, tfin,abstol,reltol,method, L)
 
     x,flowequation=prova.spatial_discretization,prova.equation_of_motion
     dx=Δx(x)
-    U=initial_conditions(mass,1.0,line) # U=initial_condition(mass,1.0,line)
+    U=initial_condition(mass,1.0,line) # U=initial_condition(mass,1.0,line)
     tspan = (0,tfin)
     prob = ODEProblem(prova,U,tspan,0)
     sol = solve(prob,method,save_everystep=false,save_start=false,save_end=true,abstol = abstol, reltol = reltol)
@@ -23,7 +23,7 @@ function Flow_finite_V(N, d, Λ, Rmax, mass, tfin, abstol, reltol, method, L)
     line = OriginInterval(N, Rmax)
     prova = SemiDiscrete(OriginInterval(N, Rmax), FlowEquation(d, Λ, L))
     dx = Δx(line)
-    U = initial_conditions(mass, 1.0, line)
+    U = initial_condition(mass, 1.0, line)
     tspan = (0, tfin)
     prob = ODEProblem(prova, U, tspan, 0)
     sol = solve(prob, method, save_everystep=false, save_start=false, save_end=true, abstol=abstol, reltol=reltol)
@@ -36,7 +36,7 @@ function Flow_infinite_V(;N=200,d=3,Λ=10,Rmax=2.0,mass=.8, tfin=10,abstol=1e-9,
     line=OriginInterval(N,Rmax)
     prova=SemiDiscrete(line,FlowEquation(d,Λ)) 
  
-    U=initial_conditions(mass,1.0,line) #U=ic_costerm(mass,1.0,line)
+    U=initial_condition(mass,1.0,line) #U=ic_costerm(mass,1.0,line)
     tspan = (0,tfin)
     prob = ODEProblem(prova,U,tspan,0)
     sol = solve(prob,method,
