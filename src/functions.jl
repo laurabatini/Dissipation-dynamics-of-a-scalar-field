@@ -53,14 +53,14 @@ end
 
 @inline scale(::FlowEquation{D,S,O,L}) where {D,S,O,L}= S
 
-@inline SolidAngle(::FlowEquation{D,S,O,InfiniteVolume}) where {D,S,O,L}= O
+@inline SolidAngle(::FlowEquation{D,S,O,InfiniteVolume}) where {D,S,O}= O
 
 
-@inline volume(::FlowEquation{D,S,O,FiniteVolume}) where {D,S,O,L}= O^D
+@inline volume(::FlowEquation{D,S,O,FiniteVolume}) where {D,S,O}= O^D
 
-@inline length_(::FlowEquation{D,S,O,FiniteVolume}) where {D,S,O,L}= O
+@inline length_(::FlowEquation{D,S,O,FiniteVolume}) where {D,S,O}= O
 
-@inline volume(::FlowEquation{D,S,O,InfiniteVolume} where {D,S,O,} )  = InfiniteVolume()
+@inline volume(::FlowEquation{D,S,O,InfiniteVolume} where {D,S,O} )  = InfiniteVolume()
 
 
 # Create a FlowEquation object with a specific dimension and scale
