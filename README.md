@@ -1,5 +1,7 @@
 Code writen for the publication []. All details can be found therein.
 
+The jupyter notebook how_to.ipynb explain briefly how to solve the equations. 
+
 If you use this code for your own research, please cite the paper:
 
 @article{[],
