@@ -14,9 +14,9 @@ using Plots
 using StaticNumbers
 using Measurements
 
-using Dierckx
+#using Dierckx
 
-using Roots
+#using Roots
 
 function ndimcount(dim, R) 
    
@@ -116,6 +116,7 @@ struct SemiDiscrete{T, X}
     equation_of_motion::T
 end
 
+
 # Define the call operator for the SemiDiscrete type
 function (ff::SemiDiscrete)(du, u, p, t)
     x, flowequation = ff.spatial_discretization, ff.equation_of_motion
@@ -163,6 +164,41 @@ function (ff::SemiDiscrete)(du, u, p, t)
                             potential_flow((u[1, i-1] - u[1, i-2]) * invdx, t, flowequation)) * invdx
     du[2, i] = du[2, i-1]
 end
+
+
+# Define the call operator for the SemiDiscrete type
+function not_symmetric(du, u, p, t)
+    x, flowequation = p #ff.spatial_discretization, ff.equation_of_motion
+    dx = Δx(x)
+    invdx = 1 / dx
+    invdx2 = 1 / (dx^2)
+    prefactor = Prefactor(t, flowequation)
+    
+    # Compute du for the first grid point
+    i=1
+    du[i] = prefactor * (potential_flow((u[ i+2] - u[ i+1]) * invdx, t, flowequation) - 
+    potential_flow((u[ i+1] - u[ i]) * invdx, t, flowequation)) * invdx
+    
+    # Compute du for the interior grid points
+    for i in 2:length(x)-1
+    
+        
+        du[i] = prefactor * (potential_flow((u[i+1] - u[ i]) * invdx, t, flowequation) - 
+                             potential_flow((u[ i] - u[ i-1]) * invdx, t, flowequation))*invdx
+        
+    
+    end
+    
+    # Compute du for the last grid point
+    i = length(x)
+    
+    du[ i] = prefactor * (potential_flow((u[ i] - u[i-1]) * invdx, t, flowequation) - 
+                            potential_flow((u[i-1] - u[ i-2]) * invdx, t, flowequation)) * invdx
+
+end
+
+
+
 
 # Define initial conditions for the system
 function initial_condition(mass, lambda, spatial_discretization)
